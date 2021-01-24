@@ -4,6 +4,8 @@ import { Wrapper } from './Cart.styles';
 
 import { CartItemType } from '../../types/CartItemType';
 
+import IconButton from '@material-ui/core/IconButton'
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
 
 type Props = {
     cartItems: CartItemType[],
@@ -28,7 +30,22 @@ const Cart : React.FC<Props> = ({cartItems,addToCart,removeFromCart}) => {
                 removeFromCart={removeFromCart}
                 addToCart={addToCart}/>
             ))}
-            <h2>Total : ${calculateTotal(cartItems).toFixed(2)}</h2>
+            {cartItems.length > 0
+            ?      
+            (<div className='cart__checkout'>
+                <h2>Total : ${calculateTotal(cartItems).toFixed(2)}</h2>
+                
+                <IconButton
+                color='secondary'
+                size='small'          
+                >
+                    <AccountBalanceIcon style={{margin:10}}/>
+                    CHECKOUT
+                </IconButton>
+            </div>)
+            :null
+            }
+      
         </Wrapper>
     )
 }

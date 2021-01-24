@@ -5,4 +5,9 @@ export const Wrapper = styled.aside`
     width:500px;
     padding:20px;
 
+    .cart__checkout{
+        display:flex;
+        justify-content:space-between;
+        align-items:center
+    }
 `

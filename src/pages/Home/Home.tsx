@@ -104,9 +104,9 @@ const Home: React.FC = () => {
                     <AddCartIcon fontSize='large' />
                 </Badge>
             </StyledButton>
-            <Grid container spacing={3}>
+            <Grid container spacing={4}>
                 {data?.map((item: CartItemType) => (
-                    <Grid xs={12} sm={4} item key={item.id}>
+                    <Grid xs={12} sm={2} item key={item.id}>
                         <Item item={item} handleAddToCart={handleAddToCart} />
                     </Grid>
                 ))}
