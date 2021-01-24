@@ -63,15 +63,14 @@ const getListProducts = (dispatch: Dispatch<ProductDispatchTypes>) => {
     }
 }
 
+// Fix it
+//const getTotalItems = (items : CartItemType[]) => items.reduce((acc:number,item) => acc + item.amount,0);
 
-const getTotalItems = (items : CartItemType[]) => {
-    items.reduce((acc:number,items) => acc+items.amount, 0);
-};
-
+const getTotalItems = (items : CartItemType[]) => 10
 
 const handleAddToCart = (clickedItem : CartItemType) => null;
 
-const handleRemoveFromCart = () => null;
+const handleRemoveFromCart = (id : number) => null;
 
 
 

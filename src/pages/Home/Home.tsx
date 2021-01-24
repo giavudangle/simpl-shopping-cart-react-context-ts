@@ -17,9 +17,11 @@ import { useContext, useEffect, useState } from 'react';
 import { Context as ProductContext, ProductContextType } from '../../contexts/ProductContext'
 
 import Item from '../Item/Item'
+
 import { CartItemType } from '../../types/CartItemType';
+import Cart from '../Cart/Cart';
 
-
+import Button from '@material-ui/core/Button'
 
 
 
@@ -27,7 +29,7 @@ const Home: React.FC = () => {
     // Destructuing
     const props = useContext(ProductContext);
     const { actions, state } = props;
-    const { getListProducts, handleAddToCart, getTotalItems } = actions;
+    const { getListProducts, handleAddToCart, getTotalItems,handleRemoveFromCart } = actions;
     const { data, isLoading, error }: ProductContextType = state;
 
     // Local state 
@@ -50,13 +52,18 @@ const Home: React.FC = () => {
                 anchor='left'
                 open={cartOpen}
                 onClose={() => setCartOpen(!cartOpen)}>
-                Cart
+                <Cart 
+                cartItems={cartItems} 
+                addToCart={handleAddToCart}
+                removeFromCart={handleRemoveFromCart}
+                />
             </Drawer>
             <StyledButton onClick={() => setCartOpen(!cartOpen)}>
-                <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+                <Badge badgeContent={3} color='error'>
                     <AddCartIcon/>
                 </Badge>
             </StyledButton>
+
 
 
             <Grid container spacing={3}>
