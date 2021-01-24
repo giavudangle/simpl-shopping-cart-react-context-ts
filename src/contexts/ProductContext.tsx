@@ -5,22 +5,17 @@ import fakeStore from '../api/fakeStore';
 import { Dispatch } from 'react';
 import FactoryContext from './FactoryContext';
 
-
-
-
 export type ProductContextType = {
     data: CartItemType[],
     isLoading: boolean,
     error: string,
 }
 
-
 const initialState: ProductContextType = {
     data: [],
     isLoading: false,
     error: '',
 } 
-
 
 const productReducer = (state: ProductContextType = initialState, action: ProductDispatchTypes): ProductContextType => {
     switch (action.type) {
@@ -63,14 +58,7 @@ const getListProducts = (dispatch: Dispatch<ProductDispatchTypes>) => {
     }
 }
 
-// Fix it
-//const getTotalItems = (items : CartItemType[]) => items.reduce((acc:number,item) => acc + item.amount,0);
 
-const getTotalItems = (items : CartItemType[]) => 10
-
-const handleAddToCart = (clickedItem : CartItemType) => null;
-
-const handleRemoveFromCart = (id : number) => null;
 
 
 
@@ -78,6 +66,6 @@ const handleRemoveFromCart = (id : number) => null;
 
 export const { Context, Provider } = FactoryContext(
     productReducer,
-    { getListProducts,handleAddToCart,handleRemoveFromCart ,getTotalItems},
+    { getListProducts},
     []
 );

@@ -24,12 +24,11 @@ import Cart from '../Cart/Cart';
 import Button from '@material-ui/core/Button'
 
 
-
 const Home: React.FC = () => {
     // Destructuing
     const props = useContext(ProductContext);
     const { actions, state } = props;
-    const { getListProducts, handleAddToCart, getTotalItems,handleRemoveFromCart } = actions;
+    const { getListProducts } = actions;
     const { data, isLoading, error }: ProductContextType = state;
 
     // Local state 
@@ -42,8 +41,50 @@ const Home: React.FC = () => {
         getListProducts()
     }, [])
 
+    const getTotalItems = (items: CartItemType[]) => items.reduce((acc: number, item) => acc + item.amount, 0);
+
+    const handleAddToCart = (clickedItem: CartItemType) => {
+        setCartItems(prev => {
+            /**
+             *  Case 1 : If the item already added in the cart 
+             *  => We only increase amount
+             *  Case 2 : If the item havent add in the cart
+             *  => We must add item and amount
+             */
+
+            // Case 1
+            const isItemInCart = prev.find(item => item.id === clickedItem.id);
+            if(isItemInCart){
+                return prev.map(item => (
+                    item.id === clickedItem.id
+                    ? {...item,amount: item.amount + 1}
+                    : item
+                ))
+            }
+
+            // Case 2
+            return [...prev, {...clickedItem,amount:1}]
+        })
+    };
+
+    const handleRemoveFromCart = (id: number) => {
+        setCartItems(prev => (
+            prev.reduce((acc,item) => {
+                if(item.id === id){
+                    if(item.amount === 1) return acc;
+                    return [...acc,{...item,amount : item.amount - 1}]
+                }
+                else {
+                    return [...acc,item];
+                }
+            },[] as CartItemType[])
+        ))
+    };
+
+
     if (isLoading) return <LinearProgress />
     if (error) return <div>Something went wrong ... </div>
+
 
 
     return (
@@ -52,20 +93,17 @@ const Home: React.FC = () => {
                 anchor='left'
                 open={cartOpen}
                 onClose={() => setCartOpen(!cartOpen)}>
-                <Cart 
-                cartItems={cartItems} 
-                addToCart={handleAddToCart}
-                removeFromCart={handleRemoveFromCart}
+                <Cart
+                    cartItems={cartItems}
+                    addToCart={handleAddToCart}
+                    removeFromCart={handleRemoveFromCart}
                 />
             </Drawer>
             <StyledButton onClick={() => setCartOpen(!cartOpen)}>
-                <Badge badgeContent={3} color='error'>
-                    <AddCartIcon/>
+                <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+                    <AddCartIcon fontSize='large' />
                 </Badge>
             </StyledButton>
-
-
-
             <Grid container spacing={3}>
                 {data?.map((item: CartItemType) => (
                     <Grid xs={12} sm={4} item key={item.id}>
