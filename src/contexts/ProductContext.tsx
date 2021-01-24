@@ -64,10 +64,12 @@ const getListProducts = (dispatch: Dispatch<ProductDispatchTypes>) => {
 }
 
 
-const getTotalItems = () => null;
+const getTotalItems = (items : CartItemType[]) => {
+    items.reduce((acc:number,items) => acc+items.amount, 0);
+};
 
 
-const handleAddToCart = () => null;
+const handleAddToCart = (clickedItem : CartItemType) => null;
 
 const handleRemoveFromCart = () => null;
 
@@ -77,6 +79,6 @@ const handleRemoveFromCart = () => null;
 
 export const { Context, Provider } = FactoryContext(
     productReducer,
-    { getListProducts,handleAddToCart,handleRemoveFromCart },
+    { getListProducts,handleAddToCart,handleRemoveFromCart ,getTotalItems},
     []
 );

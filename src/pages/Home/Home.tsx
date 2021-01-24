@@ -10,8 +10,8 @@ import Badge from '@material-ui/core/Badge'
 
 
 // Styles
-import { Wrapper } from './Home.styles'
-import { useContext, useEffect ,useState} from 'react';
+import { Wrapper, StyledButton } from './Home.styles'
+import { useContext, useEffect, useState } from 'react';
 
 
 import { Context as ProductContext, ProductContextType } from '../../contexts/ProductContext'
@@ -27,13 +27,13 @@ const Home: React.FC = () => {
     // Destructuing
     const props = useContext(ProductContext);
     const { actions, state } = props;
-    const { getListProducts,handleAddToCart } = actions;
+    const { getListProducts, handleAddToCart, getTotalItems } = actions;
     const { data, isLoading, error }: ProductContextType = state;
 
     // Local state 
 
-    const [cartOpen,setCartOpen] = useState<boolean>(true);
-    const [cartItems,setCartItems] = useState([] as CartItemType[])
+    const [cartOpen, setCartOpen] = useState<boolean>(true);
+    const [cartItems, setCartItems] = useState([] as CartItemType[])
 
 
     useEffect(() => {
@@ -46,16 +46,23 @@ const Home: React.FC = () => {
 
     return (
         <Wrapper>
-            <Drawer 
-            anchor='left' 
-            open={cartOpen}
-            onClose={() => setCartOpen(!cartOpen)}>
-                Cart 
+            <Drawer
+                anchor='left'
+                open={cartOpen}
+                onClose={() => setCartOpen(!cartOpen)}>
+                Cart
             </Drawer>
+            <StyledButton onClick={() => setCartOpen(!cartOpen)}>
+                <Badge badgeContent={getTotalItems(cartItems)} color='error'>
+                    <AddCartIcon/>
+                </Badge>
+            </StyledButton>
+
+
             <Grid container spacing={3}>
-                {data?.map((item : CartItemType) => (
+                {data?.map((item: CartItemType) => (
                     <Grid xs={12} sm={4} item key={item.id}>
-                        <Item item={item} handleAddToCart={handleAddToCart}/>
+                        <Item item={item} handleAddToCart={handleAddToCart} />
                     </Grid>
                 ))}
             </Grid>
